@@ -1,0 +1,159 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class BlackJackSpel {
+	
+	
+	public int aantalSpelers;
+	public Speler[] spelers;
+	public Kaart[] kaarten = new Kaart[52];
+	
+	public static void main (String[] args) {
+		
+		new BlackJackSpel();
+		
+	}
+	
+	public BlackJackSpel() {
+		
+		invoerSpelers();
+		
+		verdeelKaarten();
+		
+		while(true) {
+			kaartGeenKaart();
+		}
+	}
+	
+	public void invoerSpelers(){
+		System.out.println("Met hoeveel spelers wil je spelen?");
+		Scanner scan = new Scanner(System.in);
+		aantalSpelers = scan.nextInt();
+		
+		spelers = new Speler[aantalSpelers];
+		
+		for (int i = 0; i < aantalSpelers ; i++) {
+			
+			System.out.println("Geef naam op van speler "+ i );
+			
+			String naam = scan.next();
+			
+			System.out.println("Wat is de inzet van " + naam);
+			
+			int inzet = scan.nextInt();
+			
+			Speler speler = new Speler(naam, inzet);
+			
+			spelers[i] = speler;
+			
+		}
+		
+		
+	}
+	
+		
+	public void verdeelKaarten(){
+		
+		for (int kleur = 0; kleur < 4 ; kleur++) {
+			for (int waarde = 0 ; waarde < 13 ; waarde++) {
+				
+				Kaart kaart = new Kaart(kleur, waarde);
+				
+				kaarten[kleur * 13 + waarde] = kaart; 
+			}
+		}
+	    
+		
+		for(Speler speler : spelers) {
+			Kaart kaart1 = getRandomKaart();
+			Kaart kaart2 = getRandomKaart();
+			kaart1.speler = speler;
+			kaart2.speler = speler;
+			
+			int punten = kaart1.getPunten() + kaart2.getPunten();
+			System.out.println(speler.getName()+" heeft kaart "+kaart1.getname()+" en "+kaart2.getname()+" gekregen. Je hebt " + punten + " punten");
+		}
+		
+	    
+		
+	}
+	
+	public Kaart getRandomKaart() {
+		Random random = new Random();
+		int index = random.nextInt(52);
+		while(true) {
+			Kaart kaart = kaarten[index];
+			if (kaart.speler == null)
+				return kaart;
+		}
+	}
+	
+	public Kaart[] getSpelerKaarten(Speler speler) {
+		int aantal = 0;
+		for(Kaart kaart : this.kaarten) {
+			if (kaart.speler != null && kaart.speler.equals(speler)) {
+				aantal++;
+			}
+		}
+		Kaart[] kaarten = new Kaart[aantal];
+		int i = 0;
+		for(Kaart kaart : this.kaarten) {
+			if (kaart.speler != null && kaart.speler.equals(speler)) {
+				kaarten[i] = kaart;
+				i++;
+			}
+		}
+		return kaarten;
+	}
+	
+	public int berekenPunten(Speler speler) {
+		Kaart[] kaarten = getSpelerKaarten(speler);
+		int punten = 0;
+		for(Kaart kaart : kaarten) {
+			punten += kaart.getPunten();
+		}
+		return punten;
+	}
+	
+	public void kaartGeenKaart(){
+		Scanner scan = new Scanner(System.in);
+		
+		for(Speler speler : spelers) {
+			System.out.println(speler.getName() + " wil je een kaart?");
+			String invoer = scan.next();
+			if (invoer.equals("ja")) {
+				Kaart kaart = getRandomKaart();
+				kaart.speler = speler;
+				if (invoer.equals("nee")) {
+					checkOpWinst();
+				}
+				
+				int punten = berekenPunten(speler);
+				
+				System.out.println("Je hebt de " + kaart.getname() + " gekregen. Je hebt "+ punten);
+				System.out.println("Wil je nog een kaart?");
+			
+				String invoer1 = scan.next();
+				
+				if (invoer1.equals("ja")) {
+					Kaart kaart1 = getRandomKaart();
+					kaart1.speler = speler;
+					
+					int punten1 = berekenPunten(speler);
+					
+					System.out.println("Je hebt de " + kaart1.getname() + " gekregen. Je hebt "+ punten1);
+					
+	
+				}	
+			}	
+		}
+	}
+	public boolean checkOpWinst(){
+		if ()
+		return true;
+	}
+	public void doorGaanOfStoppen(){
+		
+	}
+	
+}
