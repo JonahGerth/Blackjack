@@ -156,4 +156,60 @@ public class BlackJackSpel {
 		
 	}
 	
+	
+public class Speler {
+	
+	private String name;
+	private int inzet;
+	
+	public Speler(String name, int inzet) {
+		this.name = name;
+		this.inzet = inzet;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+}
+
+public class Kaart {
+	
+	private int kleur;
+	private int waarde;
+	
+	public Speler speler = null;
+	
+	public Kaart(int kleur, int waarde) {
+		this.kleur = kleur;
+		this.waarde = waarde;
+	}
+	public int getwaarde(){
+		return this.waarde;
+	}
+	public int getkleur() {
+		return this.kleur;
+	}
+	
+	public int getPunten() {
+		int waarde = this.waarde + 1;
+		if (waarde > 10) {
+			waarde = 10;
+		}
+			
+		return waarde;
+	}
+	
+	public String getname() {
+		String[] kleur = {"Schoppen", "Harten", "Ruiten", "Klaver"};
+	    String[] waarde = {"Aas", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Boer", "Vrouw", "Koning"};
+	    
+	    String name = kleur[this.kleur] + " " + waarde[this.waarde];
+	    return name;
+	}
+}
+	
+
+
+	
 }
